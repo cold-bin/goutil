@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/juju/ratelimit"
+	"goutil/internal/_log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -77,6 +78,7 @@ func ReqBodySizeLimitMiddleware(limit int) gin.HandlerFunc {
 		size, err := strconv.Atoi(c.GetHeader("Content-Length"))
 		if err != nil {
 			ResInternalErr(c)
+			_log.GetLog(_log.LogErrL).Println(err)
 			c.Abort()
 			return
 		}
