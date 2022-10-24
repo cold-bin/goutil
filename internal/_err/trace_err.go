@@ -8,7 +8,7 @@ import (
 	"runtime"
 )
 
-// Err 自定义错误信息，针对nil错误使用 Err{} 空对象来表示
+// Err goutil 内部错误信息，针对nil错误使用 Err{} 空对象来表示
 type Err struct {
 	Where string
 	Err   error
