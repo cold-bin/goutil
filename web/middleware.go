@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/juju/ratelimit"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -55,7 +56,33 @@ func RateLimitMiddleware(fillInterval time.Duration, cap int64) func(c *gin.Cont
 	return func(c *gin.Context) {
 		// 如果取不到令牌就中断本次请求返回 rate limit...
 		if bucket.TakeAvailable(1) < 1 {
-			c.String(http.StatusOK, "rate limit...")
+			ResOpInfo(c, "服务繁忙~ 请稍后重试")
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}
+
+// ReqBodySizeLimitMiddleware 限制请求体大小，单位为字节数
+func ReqBodySizeLimitMiddleware(limit int) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 入参不合法时，不做限制
+		if limit <= 0 {
+			c.Next()
+			return
+		}
+
+		// 取出请求体的字节大小
+		size, err := strconv.Atoi(c.GetHeader("Content-Length"))
+		if err != nil {
+			ResInternalErr(c)
+			c.Abort()
+			return
+		}
+
+		if size > limit {
+			ResOpInfo(c, "请求体大小大于自定义阈值~")
 			c.Abort()
 			return
 		}
