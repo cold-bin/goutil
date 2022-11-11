@@ -19,7 +19,7 @@
     判断是否需要扩容
 	    1. 任务函数数量大于 p.fNumPerWorker；
 	    2. 且当前正在跑的 worker 数目小于 p.cap
-     3. 或者没有 worker
+        3. 或者没有 worker
     ```
 
 ## quick start
