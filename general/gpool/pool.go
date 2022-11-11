@@ -138,11 +138,11 @@ func (p *pool) decWorkerCount() int32 {
 //	fNumPerWorker: 每个 worker 应该执行 task 个数，推荐配为1。当大于2或小于1时，直接置为1
 //	panicHandler: 如果为nil将会使用默认的 DefaultPanicFunc 处理
 func NewPool(cap, fNumPerWorker int32, panicHandler PanicFunc) Pool {
-	if cap < 10000 {
+	if cap <= 0 {
 		cap = 10000
 	}
 
-	if fNumPerWorker < 1 || fNumPerWorker > 2 {
+	if fNumPerWorker < 1 {
 		fNumPerWorker = 1
 	}
 
