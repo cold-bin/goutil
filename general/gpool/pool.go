@@ -84,8 +84,8 @@ func (p *pool) CtxGo(ctx context.Context, f func()) {
 	}
 	p.taskLock.Unlock()
 
-	// 更新状态: 任务-1
-	p.decTaskCount()
+	// 更新状态: 任务+1
+	p.incTaskCount()
 
 	// 判断是否需要扩容
 	//  1. 任务函数数量大于 p.fNumPerWorker；
