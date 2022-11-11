@@ -6,7 +6,6 @@ package gpool
 import (
 	"context"
 	"fmt"
-	"goutil/internal/_log"
 	"log"
 	"runtime/debug"
 	"sync"
@@ -98,9 +97,6 @@ func (p *pool) CtxGo(ctx context.Context, f func()) {
 		// 所有的worker都指向一个pool
 		w.pool = p
 		w.run()
-	} else {
-		// 超负荷
-		_log.GetLog(_log.LogWarnL).Panic("依据负载策略，已达超负荷运行边界")
 	}
 }
 
