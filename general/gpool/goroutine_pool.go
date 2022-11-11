@@ -23,7 +23,7 @@ func SetCap(cap int32) {
 }
 
 func Go(f func()) {
-	defaultPool.Go(f)
+	CtxGo(context.Background(), f)
 }
 
 func CtxGo(ctx context.Context, f func()) {
