@@ -6,6 +6,7 @@ package gpool
 import (
 	"context"
 	"fmt"
+	"goutil/internal/_log"
 	"log"
 	"runtime/debug"
 	"sync"
@@ -98,8 +99,8 @@ func (p *pool) CtxGo(ctx context.Context, f func()) {
 		w.pool = p
 		w.run()
 	} else {
-		// TODO
-		//   打印一下超负荷的日志
+		// 超负荷
+		_log.GetLog(_log.LogWarnL).Panic("依据负载策略，已达超负荷运行边界")
 	}
 }
 
