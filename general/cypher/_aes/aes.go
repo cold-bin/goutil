@@ -59,8 +59,8 @@ func GetIv(blockSize int) (iv []byte, err error) {
 	return
 }
 
-// NewConf AES加密算法配置。 GetIv 可以快捷生成iv
-func NewConf(padMode, codecMode, encryptMode int, key []byte, iv []byte, block cipher.Block) cypher.Cypher {
+// New AES加密算法配置。 GetIv 可以快捷生成iv
+func New(padMode, codecMode, encryptMode int, key []byte, iv []byte, block cipher.Block) cypher.Cypher {
 	if !isKey(key) {
 		panic("key len must be 16,24 or 32 ")
 	}
