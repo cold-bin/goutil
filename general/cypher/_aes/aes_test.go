@@ -18,7 +18,7 @@ func Test_conf_Crypt(t *testing.T) {
 	}
 
 	for i := 1; i < 5; i++ {
-		conf := NewConf(PadModePKCS5, CodecModeBase64, i,
+		conf := New(PadModePKCS5, CodecModeBase64, i,
 			key, []byte("redredshiredred1"), block)
 		decrypt, err := conf.Decrypt(conf.Encrypt(text))
 		if err != nil {
