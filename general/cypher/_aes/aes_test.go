@@ -3,14 +3,23 @@
 
 package _aes
 
-import "testing"
+import (
+	"crypto/aes"
+	"testing"
+)
 
 func Test_conf_Crypt(t *testing.T) {
-	text := []byte("redrocker1234501")
+	text := []byte("redrocker501")
+	key := []byte("redredshiredred1")
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		panic(err)
+		return
+	}
 
 	for i := 1; i < 5; i++ {
 		conf := NewConf(PadModePKCS5, CodecModeBase64, i,
-			[]byte("redredshiredred1"), []byte("redredredwer3ed1"))
+			key, []byte("redredshiredred1"), block)
 		decrypt, err := conf.Decrypt(conf.Encrypt(text))
 		if err != nil {
 			t.Errorf("err: %s", err)
