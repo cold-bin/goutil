@@ -5,7 +5,7 @@ package web
 
 import (
 	"errors"
-	"goutil/internal/_err"
+	"github.com/cold-bin/goutil/internal/_err"
 	"io"
 	"net/http"
 	"net/url"
