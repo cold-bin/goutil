@@ -1,4 +1,4 @@
-module goutil
+module github.com/cold-bin/goutil
 
 go 1.19
 
