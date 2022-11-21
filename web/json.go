@@ -22,21 +22,27 @@ var (
 		Data: nil,
 	}
 
-	resData = ResJson{
-		Code: 10001,
-		Msg:  "获取数据成功",
-		Data: nil, // 待填充
-	}
-
 	resInterErr = ResJson{
 		Code: 10002,
 		Msg:  "服务繁忙",
 		Data: nil,
 	}
 
-	resOpInfo = ResJson{
-		Code: 10003,
-		Msg:  "", // 待填充
+	resParamErr = ResJson{
+		Code: 1003,
+		Msg:  "请求参数错误",
+		Data: nil,
+	}
+
+	resPermissionDenied = ResJson{
+		Code: 1005,
+		Msg:  "权限不足",
+		Data: nil,
+	}
+
+	resVerifiedErr = ResJson{
+		Code: 1006,
+		Msg:  "身份校验失败",
 		Data: nil,
 	}
 )
@@ -46,17 +52,39 @@ func ResOk(c *gin.Context) {
 }
 
 func ResOkWithData(c *gin.Context, data any) {
-	resData.Data = data
-	c.JSON(http.StatusOK, resData)
+	c.JSON(http.StatusOK, ResJson{
+		Code: 10001,
+		Msg:  "获取数据成功",
+		Data: data,
+	})
 }
 
-// ResInternalErr 内部出现错误
+// ResInternalErr 内部出现错误，很少调用
 func ResInternalErr(c *gin.Context) {
 	c.JSON(http.StatusInternalServerError, resInterErr)
 }
 
-// ResOpInfo 返回友好的操作提示
+func ResParamErr(c *gin.Context) {
+	c.JSON(http.StatusOK, resParamErr)
+}
+
+// ResOpInfo 返回友好的操作提示，能直接返回给前端
 func ResOpInfo(c *gin.Context, msg string) {
-	resOpInfo.Msg = msg
-	c.JSON(http.StatusOK, resOpInfo)
+	c.JSON(http.StatusOK, ResJson{
+		Code: 10004,
+		Msg:  msg,
+		Data: nil,
+	})
+}
+
+func ResPermissionDenied(c *gin.Context) {
+	c.JSON(http.StatusOK, resPermissionDenied)
+}
+
+func ResVerifiedErr(c *gin.Context) {
+	c.JSON(http.StatusOK, resVerifiedErr)
+}
+
+func ResStd(c *gin.Context, res ResJson) {
+	c.JSON(http.StatusOK, res)
 }
