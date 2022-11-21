@@ -29,19 +29,19 @@ var (
 	}
 
 	resParamErr = ResJson{
-		Code: 1003,
+		Code: 10003,
 		Msg:  "请求参数错误",
 		Data: nil,
 	}
 
 	resPermissionDenied = ResJson{
-		Code: 1005,
+		Code: 10005,
 		Msg:  "权限不足",
 		Data: nil,
 	}
 
 	resVerifiedErr = ResJson{
-		Code: 1006,
+		Code: 10006,
 		Msg:  "身份校验失败",
 		Data: nil,
 	}
