@@ -29,20 +29,32 @@ func HttpGet(url string) (data []byte, e _err.Err) {
 	if err != nil {
 		return nil, _err.WrapErr(err)
 	}
+	defer response.Body.Close()
 
 	bytes, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, _err.WrapErr(err)
 	}
 
+	reqPool.Put(c)
+
 	return bytes, _err.Err{}
 }
 
 func HttpPost(url string, contentType string, body io.Reader) (data []byte, e _err.Err) {
-	response, err := http.Post(url, contentType, body)
+	var c *http.Client
+	var ok bool
+	if c, ok = reqPool.Get().(*http.Client); !ok {
+		return nil, _err.WrapErr(errors.New("req pool is wrong"))
+	}
+
+	response, err := c.Post(url, contentType, body)
 	if err != nil {
 		return nil, _err.WrapErr(err)
 	}
+	defer response.Body.Close()
+
+	reqPool.Put(c)
 
 	bytes, err := io.ReadAll(response.Body)
 	if err != nil {
@@ -53,10 +65,19 @@ func HttpPost(url string, contentType string, body io.Reader) (data []byte, e _e
 }
 
 func HttpPostForm(url string, datas url.Values) (data []byte, e _err.Err) {
-	response, err := http.PostForm(url, datas)
+	var c *http.Client
+	var ok bool
+	if c, ok = reqPool.Get().(*http.Client); !ok {
+		return nil, _err.WrapErr(errors.New("req pool is wrong"))
+	}
+
+	response, err := c.PostForm(url, datas)
 	if err != nil {
 		return nil, _err.WrapErr(err)
 	}
+	defer response.Body.Close()
+
+	reqPool.Put(c)
 
 	bytes, err := io.ReadAll(response.Body)
 	if err != nil {
