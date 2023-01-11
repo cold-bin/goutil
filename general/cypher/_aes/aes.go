@@ -6,7 +6,7 @@ package _aes
 import (
 	"crypto/cipher"
 	"crypto/rand"
-	"goutil/general/cypher"
+	"github.com/cold-bin/goutil/general/cypher"
 )
 
 const (

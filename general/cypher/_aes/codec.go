@@ -3,7 +3,7 @@
 
 package _aes
 
-import "goutil/general/cypher/_codec"
+import "github.com/cold-bin/goutil/general/cypher/_codec"
 
 func enBase64(originData []byte) []byte {
 	return _codec.EncodeBase64(originData)
